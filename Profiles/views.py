@@ -32,6 +32,7 @@ class ProfileList(generics.ListAPIView):
 
     filterset_fields = [
         'owner__followed__followed__profile',
+        'owner__followed__owner__profile',
     ]
 
 
