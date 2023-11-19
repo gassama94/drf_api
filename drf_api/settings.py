@@ -69,9 +69,11 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = 'DEV' in os.environ
 
 ALLOWED_HOSTS = [
+    'drfapi90-4efd6b4b76d8.herokuapp.com',
+    '8000-gassama94-drfapi-9eusfeic4f2.ws-eu106.gitpod.io',
     'localhost',
     os.environ.get('ALLOWED_HOST'),
-    '8000-gassama94-drfapi-ugyx15378ih.ws-eu106.gitpod.io',]
+    ]
 
 
 # Application definition
@@ -165,7 +167,7 @@ else:
     DATABASES = {
          'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
      }
-     
+    #print('connected')
 
 
 # Password validation
