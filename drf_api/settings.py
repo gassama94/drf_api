@@ -164,8 +164,9 @@ if 'DEV' in os.environ:
          }
      }
 else:
-     DATABASES = {
-         'default': dj_database_url.parse(os.environ.get("DATABASE_URL"))
+    database_url = os.environ.get("DATABASE_URL", "postgres://nunfirhf:HNF9WXi9wxEGtWbxtant0mc4qkM7nEEp@cornelius.db.elephantsql.com/nunfirhf")
+    DATABASES = {
+         'default': dj_database_url.parse(os.environ.get(database_url))
      }
      
 
