@@ -71,7 +71,6 @@ DEBUG = 'DEV' in os.environ
 ALLOWED_HOSTS = [
     'localhost',
     os.environ.get('ALLOWED_HOST'),
-    'hiddenwonderss-08d1e9391484.herokuapp.com/',
     '8000-gassama94-drfapi-ugyx15378ih.ws-eu106.gitpod.io',]
 
 
@@ -92,7 +91,6 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'rest_framework.authtoken',
-    'dj_rest_auth.registration',
     'dj_rest_auth.registration',
     'corsheaders',
 
@@ -164,9 +162,8 @@ if 'DEV' in os.environ:
          }
      }
 else:
-    database_url = os.environ.get("DATABASE_URL", "postgres://nunfirhf:HNF9WXi9wxEGtWbxtant0mc4qkM7nEEp@cornelius.db.elephantsql.com/nunfirhf")
     DATABASES = {
-         'default': dj_database_url.parse(os.environ.get(database_url))
+         'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
      }
      
 
