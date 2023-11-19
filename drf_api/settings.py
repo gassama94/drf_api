@@ -118,18 +118,22 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CORS_ALLOWED_ORIGIN_REGEXES = []
+
+# Assuming CLIENT_ORIGIN is something like "https://subdomain.gitpod.io"
 if 'CLIENT_ORIGIN' in os.environ:
-    extracted_url = re.match(r'^.+-', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE).group(0)
-    CORS_ALLOWED_ORIGIN_REGEXES = [
-        rf"{extracted_url}(eu|us)\d+\w\.gitpod\.io$",
-    ]    
+    extracted_url = os.environ['CLIENT_ORIGIN']
+    CORS_ALLOWED_ORIGIN_REGEXES.append(
+        rf"{re.escape(extracted_url)}$"
+    )
 
+# Assuming CLIENT_ORIGIN_DEV is something like "subdomain.codeanyapp.com"
 if 'CLIENT_ORIGIN_DEV' in os.environ:
-    extracted_url = re.match(r'^([^.]+)', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE).group(0)
+    extracted_url_dev = os.environ['CLIENT_ORIGIN_DEV']
+    CORS_ALLOWED_ORIGIN_REGEXES.append(
+        rf"{re.escape(extracted_url_dev)}$"
+    )
 
-    CORS_ALLOWED_ORIGIN_REGEXES = [
-        rf"{extracted_url}.(eu|us)\d+\.codeanyapp\.com$",
-    ]
 
 CORS_ALLOW_CREDENTIALS = True
 
