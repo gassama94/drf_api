@@ -69,6 +69,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = 'DEV' in os.environ
 
 ALLOWED_HOSTS = [
+    '8000-gassama94-drfapi-a2hhw7pq8xh.ws-eu106.gitpod.io',
     os.environ.get('ALLOWED_HOST'),
     'localhost',
     ]
@@ -118,22 +119,15 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ALLOWED_ORIGIN_REGEXES = []
 
 # Assuming CLIENT_ORIGIN is something like "https://subdomain.gitpod.io"
 if 'CLIENT_ORIGIN' in os.environ:
-    extracted_url = os.environ['CLIENT_ORIGIN']
-    CORS_ALLOWED_ORIGIN_REGEXES.append(
-        rf"^{re.escape(extracted_url)}$"
-    )
-
-# Assuming CLIENT_ORIGIN_DEV is something like "https://3000-gassama94-hiddenwonders-92e7qf1nk8n.ws-eu106.gitpod.io/"
-if 'CLIENT_ORIGIN_DEV' in os.environ:
-    extracted_url_dev = os.environ['CLIENT_ORIGIN_DEV']
-    CORS_ALLOWED_ORIGIN_REGEXES.append(
-        rf"^{re.escape(extracted_url_dev)}$"
-    )
-
+    extracted_url = re.match(r'^.+-', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE).group(0)
+    CORS_ALLOWED_ORIGIN_REGEXES = [
+        rf"{extracted_url}(eu|us)\d+\w\.gitpod\.io$",
+    ]
+else:
+    CORS_ALLOWED_ORIGIN_REGEXES = [r"^https://.*\.gitpod\.io$",]
 
 CORS_ALLOW_CREDENTIALS = True
 
@@ -178,6 +172,7 @@ else:
     DATABASES = {
          'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
      }
+    print('connected')
     
 
 
