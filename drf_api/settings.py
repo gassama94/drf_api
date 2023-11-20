@@ -123,6 +123,7 @@ MIDDLEWARE = [
 # Assuming CLIENT_ORIGIN is something like "https://subdomain.gitpod.io"
 if 'CLIENT_ORIGIN' in os.environ:
     CORS_ALLOWED_ORIGINS = [
+        "https://3000-gassama94-hiddenwonders-92e7qf1nk8n.ws-eu106.gitpod.io",
         os.environ.get('CLIENT_ORIGIN')
     ]
 elif 'CLIENT_ORIGIN_DEV' in os.environ:
