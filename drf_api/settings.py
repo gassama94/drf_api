@@ -120,26 +120,21 @@ MIDDLEWARE = [
 ]
 
 
-# Assuming CLIENT_ORIGIN is something like "https://subdomain.gitpod.io"
-if 'CLIENT_ORIGIN' in os.environ:
-    CORS_ALLOWED_ORIGINS = [
-        "https://3000-gassama94-hiddenwonders-92e7qf1nk8n.ws-eu106.gitpod.io",
-        os.environ.get('CLIENT_ORIGIN')
-    ]
-elif 'CLIENT_ORIGIN_DEV' in os.environ:
-    extracted_url = re.match(r'^.+-', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE).group(0)
-    CORS_ALLOWED_ORIGIN_REGEXES = [
-        rf"{extracted_url}(eu|us)\d+\w\.gitpod\.io$",
-    ]
-else:
-    CORS_ALLOWED_ORIGIN_REGEXES = [r"^https://.*\.gitpod\.io$",]
+dev_origin = os.environ.get('DEV_CLIENT_ORIGIN', 'http://localhost:3000')
+prod_origin = os.environ.get('PROD_CLIENT_ORIGIN', 'https://3000-gassama94-hiddenwonders-2gcwlk0kcvr.ws-eu106.gitpod.io')
 
+# Determine Current Environment
+is_dev_environment = os.environ.get('ENVIRONMENT') == 'development'
+
+# Set Allowed Origins Based on Environment
+CORS_ALLOWED_ORIGINS = [dev_origin] if is_dev_environment else [prod_origin]
+
+# Allow Credentials
 CORS_ALLOW_CREDENTIALS = True
 
 
-
 JWT_AUTH_COOKIE = 'my-app-auth'
-JWT_AUTH_REFRESH_COOKE = 'my-refresh-token'
+JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
 JWT_AUTH_SAMESITE = 'None'
 
 ROOT_URLCONF = 'drf_api.urls'
