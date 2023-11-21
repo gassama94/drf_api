@@ -69,7 +69,6 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = 'DEV' in os.environ
 
 ALLOWED_HOSTS = [
-    '8000-gassama94-drfapi-a2hhw7pq8xh.ws-eu106.gitpod.io',
     os.environ.get('ALLOWED_HOST'),
     'localhost',
     ]
@@ -87,11 +86,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'cloudinary',
     'rest_framework',
+    'django_filters',
+    'rest_framework.authtoken',
+    'dj_rest_auth',
     'django.contrib.sites',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'rest_framework.authtoken',
     'dj_rest_auth.registration',
     'corsheaders',
 
@@ -100,8 +101,6 @@ INSTALLED_APPS = [
     'comments',
     'likes',
     'followers',
-    'django_filters',
-    'dj_rest_auth',
     
 ]
 
@@ -120,16 +119,19 @@ MIDDLEWARE = [
 ]
 
 
-dev_origin = os.environ.get('DEV_CLIENT_ORIGIN', 'http://localhost:3000')
-prod_origin = os.environ.get('PROD_CLIENT_ORIGIN', 'https://3000-gassama94-hiddenwonders-2gcwlk0kcvr.ws-eu106.gitpod.io')
+# Assuming CLIENT_ORIGIN is something like "https://subdomain.gitpod.io"
+if 'CLIENT_ORIGIN' in os.environ:
+    CORS_ALLOWED_ORIGINS = [
+        os.environ.get('CLIENT_ORIGIN')
+    ]
+elif 'CLIENT_ORIGIN_DEV' in os.environ:
+    extracted_url = re.match(r'^.+-', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE).group(0)
+    CORS_ALLOWED_ORIGIN_REGEXES = [
+        rf"{extracted_url}(eu|us)\d+\w\.gitpod\.io$",
+    ]
+else:
+    CORS_ALLOWED_ORIGIN_REGEXES = [r"^https://.*\.gitpod\.io$",]
 
-# Determine Current Environment
-is_dev_environment = os.environ.get('ENVIRONMENT') == 'development'
-
-# Set Allowed Origins Based on Environment
-CORS_ALLOWED_ORIGINS = [dev_origin] if is_dev_environment else [prod_origin]
-
-# Allow Credentials
 CORS_ALLOW_CREDENTIALS = True
 
 
@@ -172,7 +174,7 @@ else:
     DATABASES = {
          'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
      }
-    print('connected')
+    
     
 
 
