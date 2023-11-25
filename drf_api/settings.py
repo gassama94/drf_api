@@ -131,7 +131,7 @@ if 'CLIENT_ORIGIN' in os.environ:
     )
 
 # Assuming CLIENT_ORIGIN_DEV is something like "https://3000-gassama94-hiddenwonders-92e7qf1nk8n.ws-eu106.gitpod.io/"
-if 'CLIENT_ORIGIN_DEV' in os.environ:
+elif 'CLIENT_ORIGIN_DEV' in os.environ:
     extracted_url_dev = os.environ['CLIENT_ORIGIN_DEV']
     CORS_ALLOWED_ORIGIN_REGEXES.append(
         rf"^{re.escape(extracted_url_dev)}$"
