@@ -127,9 +127,15 @@ if 'CLIENT_ORIGIN_DEV' in os.environ:
     extracted_url = os.environ.get('CLIENT_ORIGIN_DEV')
     CORS_ALLOWED_ORIGINS = [extracted_url]
 else:
-    CORS_ALLOWED_ORIGIN_REGEXES = [r"^https://.*\.gitpod\.io$",]
+    # Production: Use Heroku app URL
+    CORS_ALLOWED_ORIGINS = [
+        'https://drfapi90-4efd6b4b76d8.herokuapp.com'
+        ]
 
 CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = list(default_headers) + [
+     'Authorization',
+]
 
 
 
