@@ -70,6 +70,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = 'DEV' in os.environ
 
 ALLOWED_HOSTS = [
+    'drfapi90-4efd6b4b76d8.herokuapp.com',
      '8000-gassama94-drfapi-rlcfe60vah7.ws-eu106.gitpod.io',
     os.environ.get('ALLOWED_HOST'),
     'localhost',
@@ -179,6 +180,7 @@ else:
     DATABASES = {
          'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
      }
+
     
     
 
