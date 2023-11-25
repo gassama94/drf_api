@@ -123,14 +123,15 @@ MIDDLEWARE = [
 
 # Assuming CLIENT_ORIGIN is something like "https://subdomain.gitpod.io"
 
-if 'CLIENT_ORIGIN_DEV' in os.environ:
-    extracted_url = os.environ.get('CLIENT_ORIGIN_DEV')
-    CORS_ALLOWED_ORIGINS = [extracted_url]
+CORS_ORIGIN_DEV = "https://3000-gassama94-hiddenwonders-nfpsu0thdqs.ws-eu106.gitpod.io"
+CORS_ORIGIN_PROD = "https://hiddenwonderss-08d1e9391484.herokuapp.com"
+
+if 'DEV' in os.environ:
+    # Development environment (Gitpod)
+    CORS_ALLOWED_ORIGINS = [CORS_ORIGIN_DEV]
 else:
-    # Production: Use Heroku app URL
-    CORS_ALLOWED_ORIGINS = [
-        'https://drfapi90-4efd6b4b76d8.herokuapp.com'
-        ]
+    # Production environment (Heroku)
+    CORS_ALLOWED_ORIGINS = [CORS_ORIGIN_PROD]
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS = list(default_headers) + [
