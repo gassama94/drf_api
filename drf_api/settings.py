@@ -14,6 +14,7 @@ from pathlib import Path
 import os 
 import dj_database_url
 import re
+from corsheaders.defaults import default_headers
 
 
 if os.path.exists('env.py'):
@@ -69,6 +70,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = 'DEV' in os.environ
 
 ALLOWED_HOSTS = [
+     '8000-gassama94-drfapi-rlcfe60vah7.ws-eu106.gitpod.io',
     os.environ.get('ALLOWED_HOST'),
     'localhost',
     ]
@@ -120,19 +122,15 @@ MIDDLEWARE = [
 
 
 # Assuming CLIENT_ORIGIN is something like "https://subdomain.gitpod.io"
-if 'CLIENT_ORIGIN' in os.environ:
-    CORS_ALLOWED_ORIGINS = [
-        os.environ.get('CLIENT_ORIGIN')
-    ]
-elif 'CLIENT_ORIGIN_DEV' in os.environ:
-    extracted_url = re.match(r'^.+-', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE).group(0)
-    CORS_ALLOWED_ORIGIN_REGEXES = [
-        rf"{extracted_url}(eu|us)\d+\w\.gitpod\.io$",
-    ]
+
+if 'CLIENT_ORIGIN_DEV' in os.environ:
+    extracted_url = os.environ.get('CLIENT_ORIGIN_DEV')
+    CORS_ALLOWED_ORIGINS = [extracted_url]
 else:
     CORS_ALLOWED_ORIGIN_REGEXES = [r"^https://.*\.gitpod\.io$",]
 
 CORS_ALLOW_CREDENTIALS = True
+
 
 
 JWT_AUTH_COOKIE = 'my-app-auth'
