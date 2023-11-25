@@ -125,27 +125,28 @@ MIDDLEWARE = [
 # Assuming CLIENT_ORIGIN is something like "https://subdomain.gitpod.io"
 
 if 'CLIENT_ORIGIN' in os.environ:
-    CORS_ALLOWED_ORIGINS = [
-        os.environ.get('CLIENT_ORIGIN')
-    ]
-elif 'CLIENT_ORIGIN_DEV' in os.environ:
-    extracted_url = re.match(r'^.+-', os.environ.get('CLIENT_ORIGIN_DEV', ''), re.IGNORECASE).group(0)
-    CORS_ALLOWED_ORIGIN_REGEXES = [
-        rf"{extracted_url}(eu|us)\d+\w\.gitpod\.io$",
-    ]
+extracted_url = os.environ['CLIENT_ORIGIN']
+    CORS_ALLOWED_ORIGIN_REGEXES.append(
+        rf"^{re.escape(extracted_url)}$"
+    )
+
+# Assuming CLIENT_ORIGIN_DEV is something like "https://3000-gassama94-hiddenwonders-92e7qf1nk8n.ws-eu106.gitpod.io/"
+if 'CLIENT_ORIGIN_DEV' in os.environ:
+    extracted_url_dev = os.environ['CLIENT_ORIGIN_DEV']
+    CORS_ALLOWED_ORIGIN_REGEXES.append(
+        rf"^{re.escape(extracted_url_dev)}$"
+    )
+   
 else:
     CORS_ALLOWED_ORIGIN_REGEXES = [r"^https://.*\.gitpod\.io$",]
-
-CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_HEADERS = list(default_headers) + [
-    'Your-Custom-Headers',
-]
 
 
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS = list(default_headers) + [
      'Authorization',
 ]
+
+
 
 
 
