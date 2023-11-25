@@ -122,30 +122,39 @@ MIDDLEWARE = [
 ]
 
 
-# Assuming CLIENT_ORIGIN is something like "https://subdomain.gitpod.io"
+# Initialize CORS_ALLOWED_ORIGIN_REGEXES as an empty list
+CORS_ALLOWED_ORIGIN_REGEXES = []
 
-if 'CLIENT_ORIGIN' in os.environ:
-    extracted_url = os.environ['CLIENT_ORIGIN']
-    CORS_ALLOWED_ORIGIN_REGEXES.append(
-        rf"^{re.escape(extracted_url)}$"
-    )
+# Function to safely extract and append URL to CORS_ALLOWED_ORIGIN_REGEXES
+def append_cors_origin(env_var, regex_pattern=None):
+    url = os.environ.get(env_var, '')
+    if url:
+        if regex_pattern:
+            match = re.match(regex_pattern, url, re.IGNORECASE)
+            if match:
+                extracted_url = match.group(0)
+                CORS_ALLOWED_ORIGIN_REGEXES.append(extracted_url)
+            else:
+                print(f"Invalid format for {env_var}")
+        else:
+            CORS_ALLOWED_ORIGIN_REGEXES.append(url)
 
-# Assuming CLIENT_ORIGIN_DEV is something like "https://3000-gassama94-hiddenwonders-92e7qf1nk8n.ws-eu106.gitpod.io/"
-elif 'CLIENT_ORIGIN_DEV' in os.environ:
-    extracted_url_dev = os.environ['CLIENT_ORIGIN_DEV']
-    CORS_ALLOWED_ORIGIN_REGEXES.append(
-        rf"^{re.escape(extracted_url_dev)}$"
-    )
-   
-else:
+# Check and configure CLIENT_ORIGIN
+append_cors_origin('CLIENT_ORIGIN', r'^https?://[^/]+')
+
+# Check and configure CLIENT_ORIGIN_DEV
+append_cors_origin('CLIENT_ORIGIN_DEV', r'^.+-')
+
+# Default CORS setting if no environment variables are set
+if not CORS_ALLOWED_ORIGIN_REGEXES:
     CORS_ALLOWED_ORIGIN_REGEXES = [r"^https://.*\.gitpod\.io$",]
 
+# Additional CORS configurations
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_HEADERS = list(default_headers) + [
-     'Authorization',
-]
+CORS_ALLOW_HEADERS = list(default_headers) + ['Authorization',]
 
-
+# Printing CORS_ALLOWED_ORIGIN_REGEXES for debugging
+print("CORS_ALLOWED_ORIGIN_REGEXES:", CORS_ALLOWED_ORIGIN_REGEXES)
 
 
 JWT_AUTH_COOKIE = 'my-app-auth'
