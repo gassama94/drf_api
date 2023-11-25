@@ -121,23 +121,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-
-# Initialize CORS_ALLOWED_ORIGIN_REGEXES as an empty list
-CORS_ALLOWED_ORIGIN_REGEXES = []
-
-# Function to safely extract and append URL to CORS_ALLOWED_ORIGIN_REGEXES
-def append_cors_origin(env_var, regex_pattern=None):
-    url = os.environ.get(env_var, '')
-    if url:
-        if regex_pattern:
-            match = re.match(regex_pattern, url, re.IGNORECASE)
-            if match:
-                extracted_url = match.group(0)
-                CORS_ALLOWED_ORIGIN_REGEXES.append(extracted_url)
-            else:
-                print(f"Invalid format for {env_var}")
-        else:
-            CORS_ALLOWED_ORIGIN_REGEXES.append(url)
 # Initialize CORS_ALLOWED_ORIGIN_REGEXES as an empty list
 CORS_ALLOWED_ORIGIN_REGEXES = []
 
