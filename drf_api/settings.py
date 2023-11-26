@@ -52,6 +52,9 @@ JWT_AUTH_SECURE = True
 JWT_AUTH_COOKIE = 'my-app-auth'
 JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
 
+JWT_AUTH_SAMESITE = 'None'
+
+
 REST_AUTH_SERIALIZERS = {
     'USER_DETAILS_SERIALIZER': 'drf_api.serializers.CurrentUserSerializer'
 }
@@ -71,7 +74,7 @@ DEBUG = 'DEV' in os.environ
 
 ALLOWED_HOSTS = [
     'drfapi90-4efd6b4b76d8.herokuapp.com',
-     '8000-gassama94-drfapi-rlcfe60vah7.ws-eu106.gitpod.io',
+     '8000-gassama94-drfapi-b0xt94w104i.ws-eu106.gitpod.io',
     os.environ.get('ALLOWED_HOST'),
     'localhost',
     ]
@@ -80,6 +83,14 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'rest_framework.authtoken',
+    'dj_rest_auth',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'dj_rest_auth.registration',
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -90,15 +101,6 @@ INSTALLED_APPS = [
     'cloudinary',
     'rest_framework',
     'django_filters',
-    'rest_framework.authtoken',
-    'dj_rest_auth',
-    'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'dj_rest_auth.registration',
-    'corsheaders',
-
     'Profiles',
     'posts',
     'comments',
@@ -122,39 +124,40 @@ MIDDLEWARE = [
 ]
 
 # Initialize CORS_ALLOWED_ORIGIN_REGEXES as an empty list
-CORS_ALLOWED_ORIGIN_REGEXES = []
+# CORS_ALLOWED_ORIGIN_REGEXES = []
 
 # Function to safely extract and append URL to CORS_ALLOWED_ORIGIN_REGEXES
-def append_cors_origin(env_var, regex_pattern=None):
-    url = os.environ.get(env_var, '')
-    if url:
-        if regex_pattern:
-            match = re.match(regex_pattern, url, re.IGNORECASE)
-            if match:
-                extracted_url = match.group(0)
-                CORS_ALLOWED_ORIGIN_REGEXES.append(extracted_url)
-            else:
-                print(f"Invalid format for {env_var}")
-        else:
-            CORS_ALLOWED_ORIGIN_REGEXES.append(url)
+# def append_cors_origin(env_var, regex_pattern=None):
+    # url = os.environ.get(env_var, '')
+    # if url:
+        # if regex_pattern:
+            # match = re.match(regex_pattern, url, re.IGNORECASE)
+            # if match:
+                # extracted_url = match.group(0)
+                # CORS_ALLOWED_ORIGIN_REGEXES.append(extracted_url)
+            # else:
+                # print(f"Invalid format for {env_var}")
+        # else:
+            # CORS_ALLOWED_ORIGIN_REGEXES.append(url)
 
 # Check and configure CLIENT_ORIGIN
-append_cors_origin('CLIENT_ORIGIN', r'^https?://[^/]+')
+# append_cors_origin('CLIENT_ORIGIN', r'^https?://[^/]+')
 
 # Check and configure CLIENT_ORIGIN_DEV
-append_cors_origin('CLIENT_ORIGIN_DEV', r'^https?://[^/]+')
+# append_cors_origin('CLIENT_ORIGIN_DEV', r'^https?://[^/]+')
 
 # Additional CORS configurations
-CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_HEADERS = list(default_headers) + ['Authorization',]
+# CORS_ALLOW_CREDENTIALS = True
+# CORS_ALLOW_HEADERS = list(default_headers) + ['Authorization',]
 
 # Printing CORS_ALLOWED_ORIGIN_REGEXES for debugging
-print("CORS_ALLOWED_ORIGIN_REGEXES:", CORS_ALLOWED_ORIGIN_REGEXES)
+# print("CORS_ALLOWED_ORIGIN_REGEXES:", CORS_ALLOWED_ORIGIN_REGEXES)
 
-
-JWT_AUTH_COOKIE = 'my-app-auth'
-JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
-JWT_AUTH_SAMESITE = 'None'
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOWED_ORIGINS = [
+    os.environ.get("CLIENT_ORIGIN")
+]
 
 ROOT_URLCONF = 'drf_api.urls'
 
