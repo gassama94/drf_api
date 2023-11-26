@@ -6,7 +6,8 @@ from .settings import (
 )
 
 
-
+# Credit for build view from Code Intitute API coursework project.
+# Import api.views.py into api.urls.py file.
 @api_view()
 def root_route(request):
     return Response({

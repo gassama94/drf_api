@@ -31,27 +31,37 @@ DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Credited from Code Institute API run through project.
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [(
         'rest_framework.authentication.SessionAuthentication'
         if 'DEV' in os.environ
         else 'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
     )],
+
+    # Set pagination for 10 to a page. Can be changed.
+    # Set to 100 due to Infinite Scroll inconsistencies.
     'DEFAULT_PAGINATION_CLASS':
         'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
+
+    # Makes time and date look better. From DRF strftime format.
     'DATETIME_FORMAT': '%d %b %Y',
 }
+
+# Set defualt render for production environment.
 if 'DEV' not in os.environ:
     REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = [
         'rest_framework.renderers.JSONRenderer',
     ]
 
+# Needed for deployment of frontend and backend to different platforms.
 REST_USE_JWT = True
 JWT_AUTH_SECURE = True
 JWT_AUTH_COOKIE = 'my-app-auth'
 JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
 
+# Cookies would block it if thie not set to 'none'.
 JWT_AUTH_SAMESITE = 'None'
 
 
@@ -73,10 +83,10 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 DEBUG = 'DEV' in os.environ
 
 ALLOWED_HOSTS = [
-    'drfapi90-4efd6b4b76d8.herokuapp.com',
-     '8000-gassama94-drfapi-b0xt94w104i.ws-eu106.gitpod.io',
-    os.environ.get('ALLOWED_HOST'),
     'localhost',
+    # 'drfapi90-4efd6b4b76d8.herokuapp.com',
+    os.environ.get('ALLOWED_HOST'),
+     # '8000-gassama94-drfapi-b0xt94w104i.ws-eu106.gitpod.io',
     ]
 
 
