@@ -21,24 +21,25 @@ from .views import root_route, logout_route
 
 
 urlpatterns = [
-    path('', root_route),
+    #path('', root_route),
+    path('', TemplateView.as_view(template_name='index.html')),
     path('admin/', admin.site.urls),
 
     # Path included in Rest Framework for login and logout views.
-    path('api-auth/', include('rest_framework.urls')),
+    path('api/api-auth/', include('rest_framework.urls')),
 
     # Logout route above to be matched first
     path('dj-rest-auth/logout/', logout_route, name='custom_logout'),
-    path('dj-rest-auth/', include('dj_rest_auth.urls')),
+    path('api/dj-rest-auth/', include('dj_rest_auth.urls')),
      path(
-        'dj-rest-auth/registration/', 
+        'api/dj-rest-auth/registration/', 
         include('dj_rest_auth.registration.urls')
     ),
-    path('', include('Profiles.urls')),
-    path('', include('posts.urls')),
-    path('', include('comments.urls')),
-     path('', include('likes.urls')),
-     path('', include('followers.urls')),
+    path('api/', include('Profiles.urls')),
+    path('api/', include('posts.urls')),
+    path('api/', include('comments.urls')),
+     path('api/', include('likes.urls')),
+     path('api/', include('followers.urls')),
 ]
 
 

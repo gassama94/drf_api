@@ -87,6 +87,7 @@ ALLOWED_HOSTS = [
     # 'drfapi90-4efd6b4b76d8.herokuapp.com',
     os.environ.get('ALLOWED_HOST'),
      # '8000-gassama94-drfapi-b0xt94w104i.ws-eu106.gitpod.io',
+     'https://3000-gassama94-drfapiproject-z3mkt3rupht.ws-eu106.gitpod.io'
     ]
 
 
@@ -106,8 +107,8 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'cloudinary_storage',
     'django.contrib.staticfiles',
+    'cloudinary_storage',
     'cloudinary',
     'rest_framework',
     'django_filters',
@@ -124,6 +125,7 @@ SITE_ID = 1
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
+     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -217,6 +219,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+WHITENOISE_ROOT = BASE_DIR / 'staticfiles' / 'build'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
