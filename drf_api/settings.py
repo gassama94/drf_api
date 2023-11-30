@@ -13,8 +13,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os 
 import dj_database_url
-import re
-from corsheaders.defaults import default_headers
+##import re
+
 
 
 if os.path.exists('env.py'):
@@ -80,7 +80,7 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
 
-DEBUG = 'DEV' in os.environ
+DEBUG = 'DEBUG' in os.environ
 
 ALLOWED_HOSTS = [
     'localhost',
@@ -123,9 +123,9 @@ SITE_ID = 1
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'allauth.account.middleware.AccountMiddleware',
@@ -133,41 +133,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# Initialize CORS_ALLOWED_ORIGIN_REGEXES as an empty list
-# CORS_ALLOWED_ORIGIN_REGEXES = []
 
-# Function to safely extract and append URL to CORS_ALLOWED_ORIGIN_REGEXES
-# def append_cors_origin(env_var, regex_pattern=None):
-    # url = os.environ.get(env_var, '')
-    # if url:
-        # if regex_pattern:
-            # match = re.match(regex_pattern, url, re.IGNORECASE)
-            # if match:
-                # extracted_url = match.group(0)
-                # CORS_ALLOWED_ORIGIN_REGEXES.append(extracted_url)
-            # else:
-                # print(f"Invalid format for {env_var}")
-        # else:
-            # CORS_ALLOWED_ORIGIN_REGEXES.append(url)
-
-# Check and configure CLIENT_ORIGIN
-# append_cors_origin('CLIENT_ORIGIN', r'^https?://[^/]+')
-
-# Check and configure CLIENT_ORIGIN_DEV
-# append_cors_origin('CLIENT_ORIGIN_DEV', r'^https?://[^/]+')
-
-# Additional CORS configurations
-# CORS_ALLOW_CREDENTIALS = True
-# CORS_ALLOW_HEADERS = list(default_headers) + ['Authorization',]
-
-# Printing CORS_ALLOWED_ORIGIN_REGEXES for debugging
-# print("CORS_ALLOWED_ORIGIN_REGEXES:", CORS_ALLOWED_ORIGIN_REGEXES)
+CORS_ALLOWED_ORIGINS = [
+    os.environ.get("CLIENT_ORIGIN", 'https://3001-gassama94-hiddenwonders-cytbgfcc0bw.ws-eu106.gitpod.io')
+]
 
 CORS_ALLOW_CREDENTIALS = True
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOWED_ORIGINS = [
-    os.environ.get("CLIENT_ORIGIN")
-]
 
 ROOT_URLCONF = 'drf_api.urls'
 
