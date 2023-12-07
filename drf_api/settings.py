@@ -78,16 +78,17 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
+DEBUG = True
 
-DEBUG = 'DEBUG' in os.environ
+#DEBUG = 'DEBUG' in os.environ
 
 ALLOWED_HOSTS = [
     'localhost',
     # 'drfapi90-4efd6b4b76d8.herokuapp.com',
     os.environ.get('ALLOWED_HOST'),
-     # '8000-gassama94-drfapi-b0xt94w104i.ws-eu106.gitpod.io',
-     'https://3000-gassama94-drfapiproject-z3mkt3rupht.ws-eu106.gitpod.io'
+     #'8000-gassama94-drfapiproject-nv1st2uwuq6.ws-eu106.gitpod.io',
+     'localhost',
+    
     ]
 
 
@@ -137,7 +138,7 @@ MIDDLEWARE = [
 
 
 CORS_ALLOWED_ORIGINS = [
-    os.environ.get("CLIENT_ORIGIN", 'https://3001-gassama94-hiddenwonders-cytbgfcc0bw.ws-eu106.gitpod.io')
+    os.environ.get("CLIENT_ORIGIN")
 ]
 
 CORS_ALLOW_CREDENTIALS = True
