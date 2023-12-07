@@ -16,7 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
-from .views import root_route, logout_route
+from .views import root_route
+from .views import logout_route
+from django.conf import settings
+from django.conf.urls.static import static
+
 
 
 urlpatterns = [
@@ -44,3 +48,5 @@ urlpatterns = [
 
 # Allows React to handle 404 errors
 handler404 = TemplateView.as_view(template_name='index.html')
+#if settings.DEBUG:
+   # urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
