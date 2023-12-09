@@ -78,23 +78,21 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+#DEBUG = True
 
-#DEBUG = 'DEBUG' in os.environ
+DEBUG = 'DEBUG' in os.environ
 
-ALLOWED_HOSTS = [
-    'localhost',
-    # 'drfapi90-4efd6b4b76d8.herokuapp.com',
-    os.environ.get('ALLOWED_HOST'),
-     #'8000-gassama94-drfapiproject-nv1st2uwuq6.ws-eu106.gitpod.io',
-     'localhost',
-    
-    ]
+ALLOWED_HOSTS = [os.environ.get('ALLOWED_HOST'),'localhost',]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
     'rest_framework.authtoken',
     'dj_rest_auth',
     'django.contrib.sites',
@@ -103,16 +101,12 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'dj_rest_auth.registration',
     'corsheaders',
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
     'django.contrib.staticfiles',
     'cloudinary_storage',
     'cloudinary',
     'rest_framework',
     'django_filters',
+
     'Profiles',
     'posts',
     'comments',
@@ -218,14 +212,19 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
-STATICFILES_DIRS = [
-    BASE_DIR / 'frontend' /'build' /'static',  # Path to your React static files
-]
+
+#STATICFILES_DIRS = [
+    #BASE_DIR / 'frontend' / 'build' /'static',  # Path to your React static files
+    #BASE_DIR / 'stacticfiles' / 'static',   # Path to your React static files
+
+#]
 
 
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'frontend/build/staticfiles'
-WHITENOISE_ROOT = BASE_DIR / 'staticfiles' / 'build'
+#STATIC_ROOT = BASE_DIR / 'frontend/build/staticfiles'
+#STATIC_ROOT = BASE_DIR / 'frontend' / 'staticfiles' 
+STATIC_ROOT = BASE_DIR / 'staticfiles' 
+WHITENOISE_ROOT = BASE_DIR  / 'staticfiles' / 'build'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

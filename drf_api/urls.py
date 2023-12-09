@@ -20,11 +20,13 @@ from .views import root_route
 from .views import logout_route
 from django.conf import settings
 from django.conf.urls.static import static
+#from django.urls import re_path
 
 
 
 urlpatterns = [
     #path('', root_route),
+    #re_path('.*', TemplateView.as_view(template_name='index.html')),
     path('', TemplateView.as_view(template_name='index.html')),
     path('api/admin/', admin.site.urls),
 
@@ -48,5 +50,5 @@ urlpatterns = [
 
 # Allows React to handle 404 errors
 handler404 = TemplateView.as_view(template_name='index.html')
-#if settings.DEBUG:
-   # urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+if settings.DEBUG:
+   urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

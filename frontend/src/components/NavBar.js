@@ -101,7 +101,7 @@ const NavBar = () => {
           aria-controls="basic-navbar-nav"
         />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ms-auto text-left">
+          <Nav className="ml-auto text-left">
             <NavLink
               exact
               className={styles.NavLink}

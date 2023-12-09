@@ -16,10 +16,15 @@ import btnStyles from "../../styles/Button.module.css";
 import appStyles from "../../App.module.css";
 import { useSetCurrentUser } from "../../contexts/CurrentUserContext";
 import { useRedirect } from "../../hooks/useRedirect";
+//import logo from "../../assets/hw-logo.png";
 import { setTokenTimestamp } from "../../utils/utils";
 
 function SignInForm() {
+  // Use context function, imports callback function setCurentuser from
+  // CurrentUserContext.js
   const setCurrentUser = useSetCurrentUser();
+  // This function is from hooks folder to redirect
+  // logged in users to the homepage
   useRedirect("loggedIn");
 
   const [signInData, setSignInData] = useState({
@@ -31,6 +36,7 @@ function SignInForm() {
   const [errors, setErrors] = useState({});
 
   const history = useHistory();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -42,11 +48,12 @@ function SignInForm() {
       if (data && data.user) {
         setCurrentUser(data.user);
         setTokenTimestamp(data);
-        history.goBack();
+        //history.goBack();
+        history.push('/feed');
 
       } else {
       // Handle the case where data or data.user is undefined
-        console.error('The response did not contain a user object.');
+        //console.error('The response did not contain a user object.');
        // You can set an error state here if you want to display this to the user
         setErrors({ non_field_errors: ['The server did not return user data.'] });
       }
