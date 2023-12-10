@@ -19,59 +19,125 @@ export const CurrentUserProvider = ({ children }) => {
       const { data } = await axiosRes.get("dj-rest-auth/user/");
       setCurrentUser(data);
     } catch (err) {
+      //console.log(err);
+    }
+  };
+
+  //useEffect(() => {
+    //handleMount();
+  //}, []);
+
+  //useMemo(() => {
+    //axiosReq.interceptors.request.use(
+      //async (config) => {
+        //if (shouldRefreshToken()) {
+          //try {
+           // await axios.post("/dj-rest-auth/token/refresh/");
+          //} catch (err) {
+            //setCurrentUser((prevCurrentUser) => {
+             // if (prevCurrentUser) {
+               // history.push("/signin");
+             // }
+              //return null;
+            //});
+            //removeTokenTimestamp();
+            //return config;
+          //}
+        //}
+        //return config;
+      //},
+      //(err) => {
+       // return Promise.reject(err);
+      //}
+   // );
+
+    //axiosRes.interceptors.response.use(
+     // (response) => response,
+     // async (err) => {
+       // if (err.response?.status === 401) {
+        //  try {
+           // await axios.post("/dj-rest-auth/token/refresh/");
+          //} catch (err) {
+           // setCurrentUser((prevCurrentUser) => {
+            //  if (prevCurrentUser) {
+             //   history.push("/signin");
+             // }
+             // return null;
+           // });
+           // removeTokenTimestamp();
+          //}
+          //return axios(err.config);
+        //}
+        //return Promise.reject(err);
+      //}
+   // );
+ // }, [history]);
+
+
+ useEffect(() => {
+  const handleMount = async () => {
+    try {
+      const { data } = await axiosRes.get("dj-rest-auth/user/");
+      setCurrentUser(data);
+    } catch (err) {
       console.log(err);
     }
   };
 
-  useEffect(() => {
-    handleMount();
-  }, []);
+  handleMount();
+}, []);
 
-  useMemo(() => {
-    axiosReq.interceptors.request.use(
-      async (config) => {
-        if (shouldRefreshToken()) {
-          try {
-            await axios.post("/dj-rest-auth/token/refresh/");
-          } catch (err) {
-            setCurrentUser((prevCurrentUser) => {
-              if (prevCurrentUser) {
-                history.push("/signin");
-              }
-              return null;
-            });
-            removeTokenTimestamp();
-            return config;
-          }
+useEffect(() => {
+  const requestInterceptor = axiosReq.interceptors.request.use(
+    async (config) => {
+      if (shouldRefreshToken()) {
+        try {
+          await axios.post("/dj-rest-auth/token/refresh/");
+        } catch (err) {
+          setCurrentUser((prevCurrentUser) => {
+            if (prevCurrentUser) {
+              history.push("/signin");
+            }
+            return null;
+          });
+          removeTokenTimestamp();
+          return config;
         }
-        return config;
-      },
-      (err) => {
-        return Promise.reject(err);
       }
-    );
+      return config;
+    },
+    (err) => {
+      return Promise.reject(err);
+    }
+  );
 
-    axiosRes.interceptors.response.use(
-      (response) => response,
-      async (err) => {
-        if (err.response?.status === 401) {
-          try {
-            await axios.post("/dj-rest-auth/token/refresh/");
-          } catch (err) {
-            setCurrentUser((prevCurrentUser) => {
-              if (prevCurrentUser) {
-                history.push("/signin");
-              }
-              return null;
-            });
-            removeTokenTimestamp();
-          }
-          return axios(err.config);
+  const responseInterceptor = axiosRes.interceptors.response.use(
+    (response) => response,
+    async (err) => {
+      if (err.response?.status === 401) {
+        try {
+          await axios.post("/dj-rest-auth/token/refresh/");
+        } catch (err) {
+          setCurrentUser((prevCurrentUser) => {
+            if (prevCurrentUser) {
+              history.push("/signin");
+            }
+            return null;
+          });
+          removeTokenTimestamp();
         }
-        return Promise.reject(err);
+        return axios(err.config);
       }
-    );
-  }, [history]);
+      return Promise.reject(err);
+    }
+  );
+
+  // Cleanup function
+  return () => {
+    axiosReq.interceptors.request.eject(requestInterceptor);
+    axiosRes.interceptors.response.eject(responseInterceptor);
+  };
+}, [axiosReq, axiosRes, setCurrentUser, history]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>

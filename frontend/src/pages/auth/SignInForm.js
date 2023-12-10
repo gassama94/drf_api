@@ -42,25 +42,14 @@ function SignInForm() {
 
     try {
       const { data  } = await axios.post("/dj-rest-auth/login/", signInData);
-      //const response = await axios.post("/dj-rest-auth/login/", signInData);
-      //const { data } = response;
       
-      //if (data && data.user) {
         setCurrentUser(data.user);
         setTokenTimestamp(data);
         history.goBack();
-        //history.push('/feed');
-
-      //} else {
-      // Handle the case where data or data.user is undefined
-        //console.error('The response did not contain a user object.');
-       // You can set an error state here if you want to display this to the user
-        //setErrors({ non_field_errors: ['The server did not return user data.'] });
-      //}
+        
     } catch (err) {
       setErrors(err.response?.data);
-      // If the error is due to an HTTP response that was not in the 2xx range
-       //setErrors(err.response?.data || { non_field_errors: ['An error occurred during login.'] });
+     
     }
   };
 

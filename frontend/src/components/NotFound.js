@@ -1,6 +1,6 @@
 // NotFound.js
 import React from 'react';
-import NotFoundImage from '../assets/notfound.png'; // Update the path as needed
+import NotFoundImage from '../assets/pagenotfound.jpeg'; // Update the path as needed
 import styles from '../styles/NotFound.module.css';
 
 const NotFound = () => {

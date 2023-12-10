@@ -50,5 +50,5 @@ urlpatterns = [
 
 # Allows React to handle 404 errors
 handler404 = TemplateView.as_view(template_name='index.html')
-if settings.DEBUG:
-   urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+#if settings.DEBUG:
+   #urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

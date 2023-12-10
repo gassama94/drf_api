@@ -17,6 +17,9 @@ import NotFound from './components/NotFound';
 import ProfileEditForm from "./pages/profiles/ProfileEditForm";
 
 function App() {
+  // This is to identify the current user so the profiles
+  // they follow will display after clicking feed, and their
+  // liked posts will display on liked page
   const currentUser = useCurrentUser();
   const profile_id = currentUser?.profile_id || "";
 
@@ -75,7 +78,6 @@ function App() {
             render={() => <ProfileEditForm />}
           />
 
-          <Route render={() => <p>Page not found!</p>} />
           <Route component={NotFound} />
         </Switch>
       </Container>
