@@ -17,7 +17,8 @@ export const handlers = [
         last_name: "",
         profile_id: 3,
         profile_image:
-          "https://res.cloudinary.com/dgjrrvdbl/image/upload/v1/media/../default_profile_fvwztb",
+          //"https://res.cloudinary.com/dgjrrvdbl/image/upload/v1/media/../default_profile_fvwztb",
+          "https://res.cloudinary.com/duekhyyes/image/upload/v1696759108/samples/default_profile_fvwztb.jpg"
       })
     );
   }),

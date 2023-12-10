@@ -1,5 +1,6 @@
 {
   "dependencies": {
     "serve": "^14.2.1"
-  }
+  },
+  "proxy": "http://localhost:8000/"
 }
