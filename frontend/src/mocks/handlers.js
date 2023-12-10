@@ -10,12 +10,12 @@ export const handlers = [
     return res(
        // Taken from rest.get url that stores user json data
       ctx.json({
-        pk: 3,
-        username: "tyrone",
+        pk: 5,
+        username: "theadmin",
         email: "",
         first_name: "",
         last_name: "",
-        profile_id: 3,
+        profile_id: 5,
         profile_image:
           //"https://res.cloudinary.com/dgjrrvdbl/image/upload/v1/media/../default_profile_fvwztb",
           "https://res.cloudinary.com/duekhyyes/image/upload/v1696759108/samples/default_profile_fvwztb.jpg"
